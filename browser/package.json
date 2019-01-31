@@ -1,21 +1,16 @@
 {
-  "name": "encrypt-decrypt-string-browser",
+  "name": "fernet-browser",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
-  "scripts": {
-    "test": "parcel test/index.html --open"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "buffer": "^5.2.1"
+  },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "casual": "^1.5.19",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "parcel-bundler": "^1.11.0",
+    "puppet-run": "^0.3.0",
     "typescript": "^3.2.2"
   }
 }

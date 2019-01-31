@@ -1,16 +1,11 @@
-import { Params, encrypt as sharedEncrypt, decrypt as sharedDecrypt } from "../../shared/js/crypto";
+import { encrypt as sharedEncrypt, decrypt as sharedDecrypt } from "./passphrase";
 
-const params: Params = {
-  crypto: window.crypto,
-  stringToBuffer: str => new TextEncoder().encode(str),
-  base64ToBuffer: base64 => new TextEncoder().encode(atob(base64)),
-  bufferToBase64: buffer => btoa(String.fromCharCode(...new Uint8Array(buffer)))
-};
+(<any>window).Buffer = require("buffer").Buffer;
 
-export async function encrypt(passphrase, plainText) {
-  return sharedEncrypt(params, passphrase, plainText);
+export async function encrypt(passphrase: string, plainText: string) {
+  return sharedEncrypt(window.crypto, passphrase, plainText);
 }
 
-export async function decrypt(passphrase, cipherText) {
-  return sharedDecrypt(params, passphrase, cipherText);
+export async function decrypt(passphrase: string, cipherText: string) {
+  return sharedDecrypt(window.crypto, passphrase, cipherText);
 }

@@ -1,17 +1,12 @@
-import { Params, encrypt as sharedEncrypt, decrypt as sharedDecrypt } from "../../shared/js/crypto";
+import { encrypt as sharedEncrypt, decrypt as sharedDecrypt } from "./passphrase";
 import * as WebCrypto from "node-webcrypto-ossl";
 
-const params: Params = {
-  crypto: new WebCrypto(),
-  stringToBuffer: str => Buffer.from(str, "utf-8"),
-  base64ToBuffer: base64 => Buffer.from(base64, "base64"),
-  bufferToBase64: buffer => btoa(String.fromCharCode(...new Uint8Array(buffer))),
-};
+const crypto = new WebCrypto();
 
 export async function encrypt(passphrase: string, plainText: string) {
-  return sharedEncrypt(params, passphrase, plainText);
+  return sharedEncrypt(crypto, passphrase, plainText);
 }
 
 export async function decrypt(passphrase: string, cipherText: string) {
-  return sharedDecrypt(params, passphrase, cipherText);
+  return sharedDecrypt(crypto, passphrase, cipherText);
 }

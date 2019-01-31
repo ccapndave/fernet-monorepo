@@ -1,10 +1,10 @@
 {
-  "name": "encrypt-decrypt-string-node",
+  "name": "fernet-node",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "test": "mocha --exit -r ts-node/register/transpile-only test/**/*.ts"
+    "prepare": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -12,12 +12,7 @@
     "node-webcrypto-ossl": "^1.0.39"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",
-    "casual": "^1.5.19",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2"
   }
