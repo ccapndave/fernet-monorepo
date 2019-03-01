@@ -18,10 +18,6 @@ export async function generate(crypto: Crypto, secret: string, now: string, iv: 
 
   const plaintext = Buffer.from(src, "utf8");
 
-  // Pad the message to a multiple of 16 bytes
-  const padCount = 16 - (src.length % 16);
-  const paddedPlaintext = concatArrayBuffers(plaintext, new Uint8Array(Array(padCount).fill(padCount)));
-
   // Encrypt the padded message using AES 128 in CBC mode with the chosen IV and user-supplied encryption-key.
   const cryptoKey = await makeCryptoKey(crypto, key);
   const cipherText = new Uint8Array(
@@ -31,7 +27,7 @@ export async function generate(crypto: Crypto, secret: string, now: string, iv: 
         iv
       },
       cryptoKey,
-      paddedPlaintext
+      plaintext
     )
   );
 
@@ -97,11 +93,7 @@ export async function verify(crypto: Crypto, secret: string, encodedToken: strin
     cipherText
   );
 
-  // Unpad the decrypted plaintext, yielding the original message.
-  const plaintextView = new Uint8Array(plaintext);
-  const padCount = plaintextView[ plaintextView.byteLength - 1 ];
-
-  return Buffer.from(plaintextView.slice(0, plaintextView.byteLength - padCount)).toString();
+  return Buffer.from(plaintext).toString();
 }
 
 async function makeCryptoKey(crypto: Crypto, key: Key) {
