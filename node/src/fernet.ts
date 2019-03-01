@@ -169,11 +169,11 @@ function unpackInt(arrayBuffer: Uint8Array): number {
 }
 
 function base64UrlEncode(arrayBuffer: Uint8Array): string {
-  return Buffer.from(arrayBuffer).toString("base64").replace(/-/g, "+").replace(/\//g, "_");
+  return Buffer.from(arrayBuffer).toString("base64").replace(/\+/g, "-").replace(/\//g, "_");
 }
 
 function base64urlDecode(data: string): Uint8Array {
-  return Buffer.from(data.replace(/-/g, "+").replace(/\//g, "_"), "base64");
+  return Buffer.from(data.replace(/-/g, "+").replace(/_/g, "/"), "base64");
 }
 
 /**
