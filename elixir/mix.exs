@@ -7,7 +7,10 @@ defmodule Fernet.Passphrase.MixProject do
       version: "0.1.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      description: description(),
+      package: package(),
+      deps: deps(),
+      source_url: "https://github.com/ccapndave/fernet-monorepo"
     ]
   end
 
@@ -24,6 +27,17 @@ defmodule Fernet.Passphrase.MixProject do
       {:pbkdf2, "~> 2.0"},
       {:fernetex, "~> 0.3.1"},
       {:jason, "~> 1.1.2"}
+    ]
+  end
+
+  defp description() do
+    "A package to encrypt and decrypt a string based on a passphrase."
+  end
+
+  defp package() do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/ccapndave/fernet-monorepo"}
     ]
   end
 end
