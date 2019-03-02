@@ -26,7 +26,8 @@ defmodule Fernet.Passphrase.MixProject do
     [
       {:pbkdf2, "~> 2.0"},
       {:fernetex, "~> 0.3.1"},
-      {:jason, "~> 1.1.2"}
+      {:jason, "~> 1.1.2"},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 

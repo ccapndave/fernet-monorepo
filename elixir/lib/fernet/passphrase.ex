@@ -1,19 +1,24 @@
 defmodule Fernet.Passphrase do
   @moduledoc """
-  Documentation for Fernet.Passphrase.
+  This module provides function to encrypt and decrypt a string using a passphrase.
+  The implementation is designed to work cross-language; currently there are
+  packages for the browser (using the WebCrypto API), NodeJS and PHP.
+
+  ## Details
+  The passphrase is converted to a key using PBKDF2 with a random salt, and then
+  this is used as a key for Fernet encryption.
   """
 
-  @doc """
-  Hello world.
+  @doc ~S"""
+  Encrypt the given text with the given passphrase.
 
-  ## Examples
+  ## Options
 
-      iex> Fernet.Passphrase.hello()
-      :world
+    - iterations: The number of iterations to use during PBKDF2 key derivation (default 10000).
 
   """
-  def encrypt(passphrase, plaintext) do
-    iterations = 10000
+  def encrypt(passphrase, plaintext, options \\ []) do
+    iterations = Keyword.get(options, :iterations, 10000)
     salt = :crypto.strong_rand_bytes(16)
 
     with {:ok, key} <-
@@ -36,6 +41,9 @@ defmodule Fernet.Passphrase do
     end
   end
 
+  @doc ~S"""
+  Decrypt the given ciphertext with the given passphrase.
+  """
   def decrypt(passphrase, ciphertext) do
     %{"config" => %{"iterations" => iterations, "salt" => salt}, "token" => token} =
       Jason.decode!(ciphertext)
