@@ -4,7 +4,7 @@ defmodule Fernet.Passphrase.MixProject do
   def project do
     [
       app: :fernet_passphrase,
-      version: "0.1.0",
+      version: "1.0.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       description: description(),
