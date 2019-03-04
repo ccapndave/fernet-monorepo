@@ -10,15 +10,16 @@ defmodule Fernet.Passphrase do
   """
 
   @doc ~S"""
-  Encrypt the given text with the given passphrase.
+  Generate a key from the given passphrase.  Since generating a key is costly, this function
+  is exposed separately from `encrypt`
 
   ## Options
 
     - iterations: The number of iterations to use during PBKDF2 key derivation (default 10000).
 
   """
-  def encrypt(passphrase, plaintext, options \\ []) do
-    iterations = Keyword.get(options, :iterations, 10000)
+  def generate_key(passphrase, options \\ []) do
+    iterations = Keyword.get(options, :iterations, 100_000)
     salt = :crypto.strong_rand_bytes(16)
 
     with {:ok, key} <-
@@ -28,8 +29,34 @@ defmodule Fernet.Passphrase do
              salt,
              iterations,
              32
-           ),
-         {:ok, _, token} <- Fernet.generate(plaintext, key: key) do
+           ) do
+      {:ok,
+       %{
+         iterations: iterations,
+         salt: salt,
+         key: key
+       }}
+    end
+  end
+
+  @doc ~S"""
+  Encrypt the given text with the given passphrase.
+
+  ## Options
+
+    - iterations: The number of iterations to use during PBKDF2 key derivation (default 10000).
+
+  """
+  def encrypt(passphrase, plaintext, options \\ [])
+
+  def encrypt(passphrase, plaintext, options) when is_binary(passphrase) do
+    with {:ok, key} <- generate_key(passphrase, options) do
+      encrypt(key, plaintext, options)
+    end
+  end
+
+  def encrypt(%{iterations: iterations, salt: salt, key: key}, plaintext, _options) do
+    with {:ok, _, token} <- Fernet.generate(plaintext, key: key) do
       %{
         config: %{
           iterations: iterations,
