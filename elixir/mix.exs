@@ -24,9 +24,9 @@ defmodule Fernet.Passphrase.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:pbkdf2, "~> 2.0"},
-      {:fernetex, "~> 0.3.1"},
-      {:jason, "~> 1.1.2"},
+      {:pbkdf2, github: "ccapndave/erlang-pbkdf2", branch: "otp-24"},
+      {:fernetex, github: "ccapndave/fernetex", branch: "otp24"},
+      {:jason, "~> 1.2.2"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
